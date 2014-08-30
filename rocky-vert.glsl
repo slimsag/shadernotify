@@ -6,6 +6,8 @@ attribute vec2 TexCoord0;
 
 varying vec2 tc0;
 
+uniform float time;
+
 out vec3 FragPos;
 out float ao;
 out float tiles0;
@@ -23,6 +25,8 @@ void main()
 	
 	vec4 t0 = texture2D(Texture0, tc0 * tiles0);
 	float offset = normalize(t0).x;
+	//
+	offset += cos(time) * cos(time);
 	// use offset as cheap ambient occlusion
 	ao = offset;
 	

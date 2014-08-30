@@ -148,6 +148,7 @@ func gfxLoop(w *chippy.Window, r gfx.Renderer) {
 					r.LoadShader(obj.Shader, done)
 					<-done
 				}
+				obj.Shader.Inputs["time"] = float32(r.Clock().Time().Seconds())
 			}
 			obj.SetRot(obj.Rot().Add(offset))
 			r.Draw(r.Bounds(), obj, camera)

@@ -122,6 +122,7 @@ func gfxLoop(w *chippy.Window, r gfx.Renderer) {
 	o.Textures = []*gfx.Texture{tex}
 	objects = append(objects, o)
 
+	offset := lmath.Vec3{0, 0.2, 1}
 	for {
 		r.Clear(image.Rect(0, 0, 0, 0), gfx.Color{0, 0, 0, 1})
 		r.ClearDepth(image.Rect(0, 0, 0, 0), 1.0)
@@ -148,6 +149,7 @@ func gfxLoop(w *chippy.Window, r gfx.Renderer) {
 					<-done
 				}
 			}
+			obj.SetRot(obj.Rot().Add(offset))
 			r.Draw(r.Bounds(), obj, camera)
 		}
 

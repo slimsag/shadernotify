@@ -25,8 +25,9 @@ void main()
 	
 	vec4 t0 = texture2D(Texture0, tc0 * tiles0);
 	float offset = normalize(t0).x;
-	//
-	offset += cos(time) * cos(time);
+	// motion sickness
+	// offset += cos(time) * cos(time);
+	
 	// use offset as cheap ambient occlusion
 	ao = offset;
 	

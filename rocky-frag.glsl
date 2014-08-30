@@ -16,7 +16,7 @@ void main()
 	vec3 surfaceToLight = pos - FragPos;
 	float brightness = dot(normal, surfaceToLight) / (length(surfaceToLight) * length(normal));
   brightness = clamp(brightness, 0, 1);
-  brightness *= 1.5;
+  brightness *= 4.5;
 	vec3 light = brightness * vec3(0.9, 0.8, 0.7);
 
 	vec4 final = vec4(0, 0, 0, 0);

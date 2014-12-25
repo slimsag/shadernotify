@@ -10,9 +10,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"azul3d.org/chippy.v1"
 	"azul3d.org/gfx.v1"
-	"azul3d.org/gfx/window.v1"
+	"azul3d.org/gfx/window.v2"
 	"azul3d.org/lmath.v1"
 
 	"davsk.net/procedural"
@@ -75,7 +74,7 @@ func loadShader(s *gfx.Shader) {
 	s.GLSLFrag = frag
 }
 
-func gfxLoop(w *chippy.Window, r gfx.Renderer) {
+func gfxLoop(w window.Window, r gfx.Renderer) {
 	watchEvent, watchQuit := watchShaders()
 
 	camera := gfx.NewCamera()
@@ -83,14 +82,16 @@ func gfxLoop(w *chippy.Window, r gfx.Renderer) {
 	camera.SetPos(lmath.Vec3{0, -20, 0})
 
 	go func() {
-		event := w.Events()
+		event := make(chan window.Event, 32)
+		w.Notify(event, window.ResizedEvents|window.CloseEvents)
+
 		for e := range event {
 			switch e.(type) {
-			case chippy.ResizedEvent:
+			case window.Resized:
 				camera.Lock()
 				camera.SetPersp(r.Bounds(), 75, 0.0001, 1000.0)
 				camera.Unlock()
-			case chippy.CloseEvent:
+			case window.Close:
 				watchQuit <- true
 			}
 		}
@@ -159,5 +160,5 @@ func gfxLoop(w *chippy.Window, r gfx.Renderer) {
 }
 
 func main() {
-	window.Run(gfxLoop)
+	window.Run(gfxLoop, nil)
 }
